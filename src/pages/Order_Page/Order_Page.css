@@ -1,0 +1,77 @@
+.order-page {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .order-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .order-card {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: left;
+  }
+  
+  .order-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .order-product-name {
+    font-size: 1.4rem;
+    margin-top: 15px;
+    color: #444;
+  }
+  
+  .order-price,
+  .order-total {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    font-weight: 600;
+    color: #6b4c4c;
+  }
+  
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .order-form input,
+  .order-form textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .btn.green-btn {
+    background-color: green !important;
+    color: white !important;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn.green-btn:hover {
+    background-color: darkgreen !important;
+  }
+  .order-category {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+  }
+  
