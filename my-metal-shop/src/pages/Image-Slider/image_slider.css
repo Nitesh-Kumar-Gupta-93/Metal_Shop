@@ -1,0 +1,66 @@
+/* Image slider container */
+.bootstrap-slider {
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Force the entire carousel and each slide to use 100% height of the container */
+  .bootstrap-slider .carousel,
+  .bootstrap-slider .carousel-inner,
+  .bootstrap-slider .carousel-item {
+    height: 100%;
+  }
+  
+  /* Make sure the image fills the height and width cleanly */
+  .bootstrap-slider .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  /* Optional: Caption styling */
+  .carousel-caption h2,
+  .carousel-caption p {
+    color: #fff; /* optional: keep text white for contrast */
+    padding: 0;
+    background: none;
+  }
+  
+  
+  /* Service highlights section */
+  .service-highlights {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    background-color: #f9fafb;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .service-box {
+    flex: 1 1 300px;
+    background-color: #f7f8fa;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .service-box h4 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+  }
+  
+  .service-box p {
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .service-box .highlight {
+    color: #007bff;
+  }
+  

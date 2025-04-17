@@ -1,0 +1,50 @@
+.update-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  .update-profile-card {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .update-profile-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .update-profile-form label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .update-profile-form input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .update-btn {
+    margin-top: 25px;
+    padding: 12px;
+    background-color: #2e7d32;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .update-btn:hover {
+    background-color: #1b5e20;
+  }
+  

@@ -1,0 +1,74 @@
+/* help_page.css */
+.help-page {
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .help-page h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .help-page .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .help-page .form-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .help-page .form-control {
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  .help-page .form-control:focus {
+    border-color: #5cb85c;
+    box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+  }
+  
+  .help-page .form-control[type="file"] {
+    padding: 5px;
+  }
+  
+  .help-page .form-group textarea {
+    resize: vertical;
+  }
+  
+  .help-page .btn-primary {
+    width: 100%;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .help-page .btn-primary:hover {
+    background-color: #4cae4c;
+    border-color: #4cae4c;
+  }
+  
+  .help-page .btn-primary:active {
+    background-color: #4cae4c;
+    border-color: #4cae4c;
+  }
+  
+  @media (max-width: 768px) {
+    .help-page {
+      padding: 20px;
+      margin: 10px;
+    }
+  }
+  
