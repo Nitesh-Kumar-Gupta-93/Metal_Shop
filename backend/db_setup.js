@@ -87,12 +87,18 @@ const createTablesAndSeedData = async () => {
 
     // Create orders table
     console.log('🔄 Creating orders table...');
+    // First drop the order_items table that depends on orders
+    await client.query(`DROP TABLE IF EXISTS order_items`);
+    // Then drop the orders table
+    await client.query(`DROP TABLE IF EXISTS orders`);
+    
     await client.query(`
       CREATE TABLE IF NOT EXISTS orders (
         orderid SERIAL PRIMARY KEY,
         userid INTEGER REFERENCES users(id) ON DELETE SET NULL,
         total_amount DECIMAL(10,2) NOT NULL,
         shipping_address TEXT NOT NULL,
+        payment_method VARCHAR(50) DEFAULT 'Cash on Delivery',
         order_status VARCHAR(50) NOT NULL DEFAULT 'pending',
         createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );

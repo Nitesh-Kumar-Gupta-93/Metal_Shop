@@ -49,7 +49,7 @@ const ProductSection = ({ onAddToCart }) => {
 
   const handleOrderNow = (product) => {
     // Navigate to payment details page first
-    console.log("🛍️ Order Now clicked for product:", product.productname);
+    console.log("🛍️ Order Now clicked for product:", product);
     
     // Set default quantity
     const quantity = 1;
@@ -65,7 +65,8 @@ const ProductSection = ({ onAddToCart }) => {
       state: { 
         product: {
           ...product,
-          title: product.productname // Ensure the property name matches what PaymentDetails expects
+          title: product.productname, // Ensure the property name matches what PaymentDetails expects
+          productid: product.productid // Ensure productid is explicitly passed
         },
         quantity,
         totalPrice,

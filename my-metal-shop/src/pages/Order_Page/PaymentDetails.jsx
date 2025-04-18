@@ -41,9 +41,21 @@ const PaymentDetails = () => {
     }
     
     alert(`🧾 Paid $${totalPrice} via QR Code`);
+    // Ensure product has the proper ID field
+    const productWithId = {
+      ...product,
+      productid: product.productid || product.id || product.productId
+    };
+    
     // Navigate to placed-order with all the order details
     navigate('/placed-order', {
-      state: { product, quantity, totalPrice, address }
+      state: { 
+        product: productWithId, 
+        quantity, 
+        totalPrice, 
+        address,
+        paymentMethod: 'QR Code Payment'
+      }
     });
   };
 
@@ -54,8 +66,20 @@ const PaymentDetails = () => {
     }
     
     alert(`📦 Order placed as COD for $${totalPrice}`);
+    // Ensure product has the proper ID field
+    const productWithId = {
+      ...product,
+      productid: product.productid || product.id || product.productId
+    };
+    
     navigate('/placed-order', {
-      state: { product, quantity, totalPrice, address }
+      state: { 
+        product: productWithId, 
+        quantity, 
+        totalPrice, 
+        address,
+        paymentMethod: 'Cash on Delivery'
+      }
     });
   };
 

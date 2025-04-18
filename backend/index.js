@@ -383,7 +383,23 @@ app.delete('/api/cart/user/:userId', async (req, res) => {
 // 📦 Orders Routes
 app.post('/api/orders', async (req, res) => {
   console.log('📝 Creating new order:', req.body);
-  const { userId, products, totalAmount, shippingAddress, orderStatus = 'pending' } = req.body;
+  const { userId, products, totalAmount, shippingAddress, paymentMethod = 'Cash on Delivery', orderStatus = 'pending' } = req.body;
+  
+  // Validate required fields
+  if (!userId || !products || !Array.isArray(products) || products.length === 0 || !totalAmount || !shippingAddress) {
+    console.error('❌ Missing required order fields:', { 
+      hasUserId: !!userId, 
+      hasProducts: !!products, 
+      isProductsArray: Array.isArray(products),
+      productsLength: products ? products.length : 0,
+      hasTotalAmount: !!totalAmount, 
+      hasShippingAddress: !!shippingAddress 
+    });
+    return res.status(400).json({ 
+      error: 'Missing required order fields',
+      details: 'All of userId, products array, totalAmount, and shippingAddress are required'
+    });
+  }
   
   const client = await pool.connect();
   try {
@@ -392,10 +408,10 @@ app.post('/api/orders', async (req, res) => {
 
     // Insert the order
     const orderResult = await client.query(
-      `INSERT INTO orders (userid, total_amount, shipping_address, order_status)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO orders (userid, total_amount, shipping_address, payment_method, order_status)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING orderid`,
-      [userId, totalAmount, shippingAddress, orderStatus]
+      [userId, totalAmount, shippingAddress, paymentMethod, orderStatus]
     );
     
     const orderId = orderResult.rows[0].orderid;
@@ -404,6 +420,11 @@ app.post('/api/orders', async (req, res) => {
     // Insert order items
     console.log('🔄 Adding order items...');
     for (const product of products) {
+      if (!product.productId) {
+        console.error('❌ Product missing productId:', product);
+        throw new Error('Product missing productId');
+      }
+      
       await client.query(
         `INSERT INTO order_items (orderid, productid, quantity, price_at_time)
          VALUES ($1, $2, $3, $4)`,
@@ -420,7 +441,11 @@ app.post('/api/orders', async (req, res) => {
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('❌ Error creating order:', err);
-    res.status(500).json({ error: 'Failed to create order', details: err.message });
+    res.status(500).json({ 
+      error: 'Failed to create order', 
+      details: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   } finally {
     client.release();
   }

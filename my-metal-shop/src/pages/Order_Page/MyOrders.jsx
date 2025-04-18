@@ -1,68 +1,132 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './MyOrders.css';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  
   useEffect(() => {
-    // Simulate loading with static data
-    setTimeout(() => {
-      setOrders([
-        {
-          id: 1,
-          product_name: 'Metal Table',
-          product_image: 'https://5.imimg.com/data5/XD/PD/TG/SELLER-6796416/metal-furniture-1000x1000.jpg',
-          category: 'Metal/Iron',
-          quantity: 2,
-          total_price: 3400,
-          address: '123 Main St, Mumbai',
-          status: 'Delivered',
-        },
-        {
-          id: 2,
-          product_name: 'Steel Shed',
-          product_image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRZfHMsjilK9YQ1-g3cwWyNbyLVnq3WiVzHI6FyHwogAghGYLD',
-          category: 'Sheds',
-          quantity: 1,
-          total_price: 8000,
-          address: '45 Industrial Area, Pune',
-          status: 'Shipped',
-        },
-        {
-          id: 3,
-          product_name: 'Iron Shutter',
-          product_image: 'https://5.imimg.com/data5/DG/IA/LD/SELLER-100375194/roller-shutter-vector-1605735-jpg-250x250.jpg',
-          category: 'Shutter',
-          quantity: 1,
-          total_price: 4600,
-          address: '12 Market Lane, Delhi',
-          status: 'Processing',
-        },
-      ]);
-      setLoading(false);
-    }, 1000); // Simulate network delay
+    fetchUserOrders();
   }, []);
 
-  if (loading) return <p className="loading">Loading your orders...</p>;
+  const fetchUserOrders = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Get userId from localStorage (using our fixed user ID)
+      const userId = localStorage.getItem('userId') || '3';
+      
+      const response = await fetch(`http://localhost:5000/api/orders/${userId}`, {
+        credentials: 'include'
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch orders: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Fetched orders:', data);
+      setOrders(data);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fallback to static data if API request fails or returns empty
+  const loadStaticData = () => {
+    return [
+      {
+        orderid: 1,
+        createdat: new Date().toISOString(),
+        total_amount: 299.99,
+        shipping_address: '123 Main St, City, Country',
+        payment_method: 'Cash on Delivery',
+        order_status: 'Processing',
+        items: [
+          {
+            productId: 2,
+            productName: 'Metal Gate',
+            quantity: 1,
+            priceAtTime: 299.99,
+            productImage: 'productImage-1744962680344-531700763.jpg'
+          }
+        ]
+      }
+    ];
+  };
+
+  if (loading) return (
+    <div className="my-orders">
+      <h2>My Orders</h2>
+      <p className="loading">Loading your orders...</p>
+    </div>
+  );
+
+  // If error or no orders, use static data
+  const displayOrders = orders.length > 0 ? orders : (error ? loadStaticData() : []);
 
   return (
     <div className="my-orders">
       <h2>My Orders</h2>
-      {orders.length === 0 ? (
-        <p>You haven't placed any orders yet.</p>
+      
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={fetchUserOrders} className="retry-btn">Try Again</button>
+        </div>
+      )}
+      
+      {displayOrders.length === 0 ? (
+        <div className="empty-orders">
+          <p>You haven't placed any orders yet.</p>
+          <button onClick={() => navigate('/')} className="shop-now-btn">
+            Shop Now
+          </button>
+        </div>
       ) : (
         <div className="orders-list">
-          {orders.map((order) => (
-            <div key={order.id} className="order-card">
-              <img src={order.product_image} alt={order.product_name} />
-              <div className="order-info">
-                <h3>{order.product_name}</h3>
-                <p>Category: {order.category}</p>
-                <p>Quantity: {order.quantity}</p>
-                <p>Total: ₹{order.total_price}</p>
-                <p>Address: {order.address}</p>
-                <p>Status: <strong>{order.status}</strong></p>
+          {displayOrders.map((order) => (
+            <div key={order.orderid} className="order-card">
+              <div className="order-header">
+                <div>
+                  <h3>Order #{order.orderid}</h3>
+                  <p className="order-date">Placed: {new Date(order.createdat).toLocaleDateString()}</p>
+                </div>
+                <span className={`order-status ${order.order_status.toLowerCase()}`}>
+                  {order.order_status}
+                </span>
+              </div>
+              
+              <div className="order-items">
+                {order.items && order.items.map((item, index) => (
+                  <div key={index} className="order-item">
+                    <img 
+                      src={`http://localhost:5000/uploads/${item.productImage}`} 
+                      alt={item.productName}
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/100?text=No+Image";
+                      }}
+                    />
+                    <div className="item-details">
+                      <h4>{item.productName}</h4>
+                      <p>Quantity: {item.quantity}</p>
+                      <p>Price: ${item.priceAtTime}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="order-footer">
+                <p><strong>Shipping Address:</strong> {order.shipping_address}</p>
+                <p><strong>Payment Method:</strong> {order.payment_method || 'Cash on Delivery'}</p>
+                <p className="order-total"><strong>Total:</strong> ${order.total_amount}</p>
               </div>
             </div>
           ))}
