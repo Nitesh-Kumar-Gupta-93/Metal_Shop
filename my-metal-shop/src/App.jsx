@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { CartProvider } from './context/CartContext';
 
 import Navebar from "./pages/Navebar";
 import Footer from "./pages/Footer-Section/footer";
@@ -27,12 +28,11 @@ import UserCart from "./pages/cart_section/user_cart";
 import UpdateUserProfile from "./pages/User-Profile/UpdateUserProfile";
 import PaymentDetails from "./pages/Order_Page/PaymentDetails";
 import PlacedOrder from "./pages/Order_Page/PlacedOrder";
-
+import MyOrders from "./pages/Order_Page/MyOrders";
 
 function App() {
   return (
-    <>
-    {/* <AdminAddProduct/> */}
+    <CartProvider>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
@@ -48,6 +48,7 @@ function App() {
         <Route path="/updateuserprofile" element={<UpdateUserProfile />} />
         <Route path="/paymentDetails" element={<PaymentDetails />} />
         <Route path="/placed-order" element={<PlacedOrder />} />
+        <Route path="/myOrders" element={<MyOrders />} />
 
         {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminMain />}>
@@ -61,7 +62,7 @@ function App() {
           <Route path="editProduct" element={<EditProduct />} />
         </Route>
       </Routes>
-    </>
+    </CartProvider>
   );
 }
 

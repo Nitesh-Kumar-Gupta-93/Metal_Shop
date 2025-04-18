@@ -27,7 +27,7 @@ const UserProfile = () => {
   };
 
   const handleViewOrders = () => {
-    navigate('/orders');
+    navigate('/myOrders');
   };
 
   return (

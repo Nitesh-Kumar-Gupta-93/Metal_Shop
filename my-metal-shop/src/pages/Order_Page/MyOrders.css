@@ -1,0 +1,53 @@
+.my-orders {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .my-orders h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .orders-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .order-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    width: 300px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .order-info {
+    margin-top: 1rem;
+  }
+  
+  .order-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .order-info p {
+    margin: 0.3rem 0;
+    color: #555;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2rem;
+  }
+  
